@@ -1,6 +1,7 @@
 axios.defaults.headers.common['Authorization'] = 'I83FdHEe98xJAkGy3EuLeqIk';
 let user;
 const conteudo = document.querySelector(".conteudo");
+const input = document.querySelector("input");
 let destino = "Todos";
 
 entrar();
@@ -54,8 +55,15 @@ function renderMensagem(tempo, destino, usuario, msg, status) {
     }
 }
 
+input.addEventListener("keypress",function (event){
+    if (event.key === "Enter"){
+        event.preventDefault();
+        document.getElementById("btnEnviar").click();
+    }
+})
+
 function enviar(){
-    let msg = document.querySelector("input").value;
+    let msg = input.value;
     mensagem = {
         from: user.name,
 	    to: destino,
@@ -65,6 +73,6 @@ function enviar(){
     let promisse = axios.post("https://mock-api.driven.com.br/api/vm/uol/messages",mensagem);
     promisse.then(buscar);
     promisse.catch(window.location.reload);
-    document.querySelector("input").value="";
+    input.value="";
     window.scrollTo(0,conteudo.scrollHeight);
 }
