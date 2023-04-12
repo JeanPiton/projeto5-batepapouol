@@ -1,11 +1,10 @@
 axios.defaults.headers.common['Authorization'] = 'I83FdHEe98xJAkGy3EuLeqIk';
 let user;
 const conteudo = document.querySelector(".conteudo");
-let mensagem;
 let destino = "Todos";
-let tempo;
 
 entrar();
+buscar();
 setInterval(manter, 5000);
 
 function entrar() {
@@ -24,6 +23,7 @@ function manter() {
 }
 
 function buscar() {
+    conteudo.innerHTML="";
     let msg = {};
     axios.get('https://mock-api.driven.com.br/api/vm/uol/messages')
         .then(response => {
@@ -51,4 +51,18 @@ function renderMensagem(tempo, destino, usuario, msg, status) {
     <p class="msg">${msg}</p>
 </div>`
     }
+}
+
+function enviar(){
+    let msg = document.querySelector("input").value;
+    mensagem = {
+        from: user.name,
+	    to: destino,
+	    text: msg,
+	    type: "message"
+    }
+    let promisse = axios.post("https://mock-api.driven.com.br/api/vm/uol/messages",mensagem);
+    promisse.then(buscar);
+    promisse.catch(window.location.reload);
+    document.querySelector("input").value="";
 }
