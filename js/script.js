@@ -5,6 +5,7 @@ let destino = "Todos";
 
 entrar();
 buscar();
+setInterval(buscar, 3000);
 setInterval(manter, 5000);
 
 function entrar() {
@@ -23,10 +24,10 @@ function manter() {
 }
 
 function buscar() {
-    conteudo.innerHTML="";
     let msg = {};
     axios.get('https://mock-api.driven.com.br/api/vm/uol/messages')
         .then(response => {
+            conteudo.innerHTML="";
             msg = response.data;
             for (i = 0; i < Object.keys(msg).length; i++) {
                 renderMensagem(msg[i].time, msg[i].to, msg[i].from, msg[i].text, msg[i].type);
@@ -65,4 +66,5 @@ function enviar(){
     promisse.then(buscar);
     promisse.catch(window.location.reload);
     document.querySelector("input").value="";
+    window.scrollTo(0,conteudo.scrollHeight);
 }
