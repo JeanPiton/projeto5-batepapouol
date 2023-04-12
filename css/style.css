@@ -16,6 +16,8 @@
     justify-content: space-between;
     font-size: 45px;
     padding: 0 20px;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.05);
+    background-color: white;
 }
 .topo img{
     height: 53px;
@@ -34,6 +36,8 @@
     justify-content: space-between;
     font-size: 30px;
     padding: 0 20px;
+    box-shadow: 0px -4px 6px rgba(0, 0, 0, 0.05);
+    background-color: white;
 }
 .base input{
     border:none;
@@ -56,8 +60,9 @@
 
 .conteudo{
     width:100%;
-    margin-top: 80px;
+    margin: 80px 0;
     background-color: #f3f3f3;
+    padding-top: 26px;
 }
 .mensagem{
     display:flex;
@@ -90,12 +95,12 @@
     font-weight: 400;
     font-size:14px;
 }
-.cinza{
+.status{
     background-color: #DCDCDC;
 }
-.branco{
+.message{
     background-color: white;
 }
-.vermelho{
+.private_message{
     background-color: #FFDEDE;
 }
