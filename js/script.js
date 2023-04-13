@@ -5,30 +5,30 @@ let tipo = "message";
 const conteudo = document.querySelector(".conteudo");
 const input = document.querySelector("input");
 
-entrar();
-
 function entrar() {
-    const usuario = { name: prompt("Nome de usuário:") };
-    const promessa =  axios.post('https://mock-api.driven.com.br/api/vm/uol/participants', usuario);
-    promessa.catch(resp => {
+    const usuario = prompt("Nome de usuário:");
+    user = {name:usuario};
+    const promessa =  axios.post('https://mock-api.driven.com.br/api/vm/uol/participants', user);
+    promessa.then(entrou);
+    promessa.catch(naoEntrou);
+}
+
+function entrou(resp){
+    if (resp.status === 200) {
+        Object.freeze(user);
         console.log(resp.status);
-        entrar();
-    })
-    promessa.then((resp) => {
-        if (resp.status === 200) {
-            user = usuario; 
-            Object.freeze(user);
-            console.log(resp.status);
-            buscar();
-            manter();
-            setInterval(buscar, 3000);
-            setInterval(manter, 5000);
-        }
-        else{
-            console.log(resp.status);
-            entrar();
-        }
-    })
+        buscar();
+        manter();
+        setInterval(buscar, 3000);
+        setInterval(manter, 5000);
+    }
+}
+
+function naoEntrou(resp){
+    if(resp.status === 400){
+        alert("Escolha outro nome");
+        window.location.reload();
+    }
 }
 
 function manter() {
@@ -95,3 +95,5 @@ function enviar() {
         window.scrollTo(0, conteudo.scrollHeight);
     }
 }
+
+entrar();
