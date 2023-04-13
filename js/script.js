@@ -6,7 +6,6 @@ const conteudo = document.querySelector(".conteudo");
 const input = document.querySelector("input");
 
 entrar();
-buscar();
 setInterval(buscar, 3000);
 setInterval(manter, 5000);
 
@@ -17,6 +16,7 @@ function entrar() {
     promessa.then((resp) => {
         if (resp.status == 200) {
             user = usuario;
+            buscar();
         }
     })
 }
@@ -67,6 +67,7 @@ input.addEventListener("keypress",function (event){
 
 function enviar(){
     let msg = input.value;
+    if(user!=null){
     mensagem = {
         from: user.name,
 	    to: destino,
@@ -78,4 +79,5 @@ function enviar(){
     promisse.catch(window.location.reload);
     input.value="";
     window.scrollTo(0,conteudo.scrollHeight);
+}
 }
