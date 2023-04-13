@@ -8,17 +8,19 @@ const input = document.querySelector("input");
 entrar();
 
 function entrar() {
-    let usuario = { name: prompt("Nome de usuário:") };
-    const promessa = axios.post('https://mock-api.driven.com.br/api/vm/uol/participants', usuario);
+    const usuario = { name: prompt("Nome de usuário:") };
+    const promessa =  axios.post('https://mock-api.driven.com.br/api/vm/uol/participants', usuario);
     promessa.catch(resp => {
-        console.log("deu ruim");
+        console.log(resp.status);
         entrar();
     })
     promessa.then((resp) => {
-        if (resp.status == 200) {
-            user = usuario;
+        if (resp.status === 200) {
+            user = usuario; 
+            Object.freeze(user);
             console.log(resp.status);
             buscar();
+            manter();
             setInterval(buscar, 3000);
             setInterval(manter, 5000);
         }
