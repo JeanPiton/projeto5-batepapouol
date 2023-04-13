@@ -6,21 +6,21 @@ const conteudo = document.querySelector(".conteudo");
 const input = document.querySelector("input");
 
 entrar();
-setInterval(buscar, 3000);
-setInterval(manter, 5000);
 
 function entrar() {
     let usuario = { name: prompt("Nome de usuário:") };
     const promessa = axios.post('https://mock-api.driven.com.br/api/vm/uol/participants', usuario);
     promessa.catch(resp => {
         console.log("deu ruim");
-            entrar();
+        entrar();
     })
     promessa.then((resp) => {
         if (resp.status == 200) {
             user = usuario;
             console.log("entrou");
             buscar();
+            setInterval(buscar, 3000);
+            setInterval(manter, 5000);
         }
     })
 }
@@ -33,7 +33,7 @@ function buscar() {
     let msg = {};
     axios.get('https://mock-api.driven.com.br/api/vm/uol/messages')
         .then(response => {
-            conteudo.innerHTML="";
+            conteudo.innerHTML = "";
             msg = response.data;
             for (i = 0; i < Object.keys(msg).length; i++) {
                 renderMensagem(msg[i].time, msg[i].to, msg[i].from, msg[i].text, msg[i].type);
@@ -62,27 +62,28 @@ function renderMensagem(tempo, destino, usuario, msg, status) {
     }
 }
 
-input.addEventListener("keypress",function (event){
-    if (event.key === "Enter"){
+input.addEventListener("keypress", function (event) {
+    if (event.key === "Enter") {
         event.preventDefault();
         document.getElementById("btnEnviar").click();
     }
 })
 
-function enviar(){
+function enviar() {
     let msg = input.value;
-    if(user!=null){
-    mensagem = {
-        from: user.name,
-	    to: destino,
-	    text: msg,
-	    type: tipo
+    if (user != undefined) {
+        mensagem = {
+            from: user.name,
+            to: destino,
+            text: msg,
+            type: tipo
+        }
+        let promisse = axios.post("https://mock-api.driven.com.br/api/vm/uol/messages", mensagem);
+        promisse.then(buscar);
+        promisse.catch(res => {
+            window.location.reload();
+        });
+        input.value = "";
+        window.scrollTo(0, conteudo.scrollHeight);
     }
-    let promisse = axios.post("https://mock-api.driven.com.br/api/vm/uol/messages",mensagem);
-    promisse.then(buscar);
-    promisse.catch(res => {
-        window.location.reload();});
-    input.value="";
-    window.scrollTo(0,conteudo.scrollHeight);
-}
 }
