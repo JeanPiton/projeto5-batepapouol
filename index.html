@@ -19,16 +19,12 @@
     </div>
 
     <div class="conteudo">
-        <div class="mensagem vermelho">
-            <p class="tempo">(09:21:45)</p>
-            <p class="usuario">João</p>
-            <p class="msg">entra na sala</p>
-        </div>
+        
     </div>
 
     <div class="base">
-        <input type="text" placeholder="Escreva aqui..." onfocus="this.placeholder=''" onblur="this.placeholder='Escreva aqui...'">
-        <ion-icon name="paper-plane-outline" onclick="enviar()" id="btnEnviar"></ion-icon>
+        <input type="text" placeholder="Escreva aqui..." onfocus="this.placeholder=''" onblur="this.placeholder='Escreva aqui...'" data-test="input-message">
+        <ion-icon name="paper-plane-outline" onclick="enviar()" id="btnEnviar" data-test="send-message"></ion-icon>
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>

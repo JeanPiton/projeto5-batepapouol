@@ -1,8 +1,9 @@
 axios.defaults.headers.common['Authorization'] = 'I83FdHEe98xJAkGy3EuLeqIk';
 let user;
+let destino = "Todos";
+let tipo = "message";
 const conteudo = document.querySelector(".conteudo");
 const input = document.querySelector("input");
-let destino = "Todos";
 
 entrar();
 buscar();
@@ -38,14 +39,16 @@ function buscar() {
 
 function renderMensagem(tempo, destino, usuario, msg, status) {
     if (status === "status") {
-        conteudo.innerHTML += `<div class="mensagem ${status}">
+        conteudo.innerHTML += `<div class="mensagem ${status}" data-test="message">
     <p class="tempo">${tempo}</p>
     <p class="usuario">${usuario}</p>
     <p class="msg">${msg}</p>
 </div>`
+    }else if(status === "private_message" && (destino != user.name && usuario != user.name)){
+
     }
     else {
-        conteudo.innerHTML += `<div class="mensagem ${status}">
+        conteudo.innerHTML += `<div class="mensagem ${status}" data-test="message">
     <p class="tempo">${tempo}</p>
     <p class="usuario">${usuario}</p>
     <p class="msg">para</p>
@@ -68,7 +71,7 @@ function enviar(){
         from: user.name,
 	    to: destino,
 	    text: msg,
-	    type: "message"
+	    type: tipo
     }
     let promisse = axios.post("https://mock-api.driven.com.br/api/vm/uol/messages",mensagem);
     promisse.then(buscar);
