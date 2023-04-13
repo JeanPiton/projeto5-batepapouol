@@ -17,16 +17,22 @@ function entrar() {
     promessa.then((resp) => {
         if (resp.status == 200) {
             user = usuario;
-            console.log("entrou");
+            console.log(resp.status);
             buscar();
             setInterval(buscar, 3000);
             setInterval(manter, 5000);
+        }
+        else{
+            console.log(resp.status);
+            entrar();
         }
     })
 }
 
 function manter() {
-    axios.post('https://mock-api.driven.com.br/api/vm/uol/status', user);
+    axios.post('https://mock-api.driven.com.br/api/vm/uol/status', user).catch(resp=>{
+        window.location.reload();
+    });
 }
 
 function buscar() {
