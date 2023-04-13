@@ -12,13 +12,15 @@ setInterval(manter, 5000);
 function entrar() {
     let usuario = { name: prompt("Nome de usuário:") };
     const promessa = axios.post('https://mock-api.driven.com.br/api/vm/uol/participants', usuario);
+    promessa.catch(resp => {
+        console.log("deu ruim");
+            entrar();
+    })
     promessa.then((resp) => {
         if (resp.status == 200) {
             user = usuario;
+            console.log("entrou");
             buscar();
-        }
-        else{
-            entrar();
         }
     })
 }
@@ -78,7 +80,8 @@ function enviar(){
     }
     let promisse = axios.post("https://mock-api.driven.com.br/api/vm/uol/messages",mensagem);
     promisse.then(buscar);
-    promisse.catch(window.location.reload);
+    promisse.catch(res => {
+        window.location.reload();});
     input.value="";
     window.scrollTo(0,conteudo.scrollHeight);
 }
