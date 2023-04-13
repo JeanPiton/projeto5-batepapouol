@@ -12,11 +12,13 @@ setInterval(manter, 5000);
 function entrar() {
     let usuario = { name: prompt("Nome de usuário:") };
     const promessa = axios.post('https://mock-api.driven.com.br/api/vm/uol/participants', usuario);
-    promessa.catch(entrar);
     promessa.then((resp) => {
         if (resp.status == 200) {
             user = usuario;
             buscar();
+        }
+        else{
+            entrar();
         }
     })
 }
@@ -44,9 +46,9 @@ function renderMensagem(tempo, destino, usuario, msg, status) {
     <p class="usuario">${usuario}</p>
     <p class="msg">${msg}</p>
 </div>`
-    }else if(status === "private_message" && (destino != user.name && usuario != user.name)){
+    }/*else if(status === "private_message" && (destino != user.name && usuario != user.name)){
 
-    }
+    }*/
     else {
         conteudo.innerHTML += `<div class="mensagem ${status}" data-test="message">
     <p class="tempo">${tempo}</p>
