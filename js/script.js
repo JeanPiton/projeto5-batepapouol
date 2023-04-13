@@ -3,12 +3,19 @@ let user;
 let destino = "Todos";
 let tipo = "message";
 const conteudo = document.querySelector(".conteudo");
-const input = document.querySelector("input");
+const input = document.querySelector(".inputMessage");
+const nome = document.querySelector(".inputNome");
+const btnNome = document.querySelector(".btnEntrar");
+const barra = document.querySelector(".barra");
+const participants = document.querySelector(".participantes");
 
 function entrar() {
-    const usuario = prompt("Nome de usuário:");
+    const usuario = nome.value;
     user = {name:usuario};
     const promessa =  axios.post('https://mock-api.driven.com.br/api/vm/uol/participants', user);
+    nome.style.display = "none";
+    btnNome.style.display = "none";
+    document.querySelector(".loading").style.display = "block";
     promessa.then(entrou);
     promessa.catch(naoEntrou);
 }
@@ -16,16 +23,18 @@ function entrar() {
 function entrou(resp){
     if (resp.status === 200) {
         Object.freeze(user);
-        console.log(resp.status);
         buscar();
         manter();
-        setInterval(buscar, 3000);
+        participantes();
+        //setInterval(buscar, 3000);
         setInterval(manter, 5000);
+        setInterval(participantes, 10000);
+        document.querySelector(".telaEntrada").style.display = "none";
     }
 }
 
 function naoEntrou(resp){
-    if(resp.status === 400){
+    if(resp.response.status === 400){
         alert("Escolha outro nome");
         window.location.reload();
     }
@@ -49,12 +58,34 @@ function buscar() {
         });
 }
 
+function participantes(){
+    let part = {};
+    let seleciona = false;
+    axios.get("https://mock-api.driven.com.br/api/vm/uol/participants")
+        .then(response => {
+            participants.innerHTML = `<li data-value="participante" class="" onclick="select(this)"><ion-icon name="people-sharp"></ion-icon>Todos<ion-icon name="checkmark-sharp" class="check"></ion-icon></li>`;
+            part = response.data;
+            for (i = 0; i < Object.keys(part).length; i++) {
+                if(part[i].name==destino){
+                    renderParticipantes(part[i].name,"selecionado");
+                    seleciona=true;
+                }
+                else{
+                    renderParticipantes(part[i].name,"");
+                }
+            }
+            if(seleciona==false){
+                select(document.querySelector("[data-value='participante']"));
+            }
+        });
+}
+
 function renderMensagem(tempo, destino, usuario, msg, status) {
     if (status === "status") {
         conteudo.innerHTML += `<div class="mensagem ${status}" data-test="message">
     <p class="tempo">${tempo}</p>
     <p class="usuario">${usuario}</p>
-    <p class="msg">${msg}</p>
+    <div class="msg">${msg}</div>
 </div>`
     }/*else if(status === "private_message" && (destino != user.name && usuario != user.name)){
 
@@ -63,11 +94,15 @@ function renderMensagem(tempo, destino, usuario, msg, status) {
         conteudo.innerHTML += `<div class="mensagem ${status}" data-test="message">
     <p class="tempo">${tempo}</p>
     <p class="usuario">${usuario}</p>
-    <p class="msg">para</p>
+    <p class="texto">para</p>
     <p class="usuario">${destino}</p>
-    <p class="msg">${msg}</p>
+    <div class="msg">${msg}</div>
 </div>`
     }
+}
+
+function renderParticipantes(nome,classe){
+    participants.innerHTML += `<li data-value="participante" class="${classe}" onclick="select(this)"><ion-icon name="person-circle-sharp"></ion-icon>${nome}<ion-icon name="checkmark-sharp" class="check"></ion-icon></li>`;
 }
 
 input.addEventListener("keypress", function (event) {
@@ -96,4 +131,19 @@ function enviar() {
     }
 }
 
-entrar();
+function mostrarBarra(){
+    barra.style.display = "flex";
+}
+
+function esconderBarra(){
+    barra.style.display = "none";
+}
+
+function select(elemento){
+    let todos = document.querySelectorAll(`[data-value=${elemento.dataset.value}]`);
+    for(i=0;i<todos.length;i++){
+        todos[i].classList.remove("selecionado");
+    }
+    elemento.classList.add("selecionado");
+    destino = elemento.innerText;
+}
