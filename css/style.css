@@ -34,12 +34,23 @@
     height: 80px;
     width: 100vw;
     display: flex;
-    align-items: center;
-    justify-content: space-between;
+    flex-direction: column;
+    justify-content: center;
     font-size: 30px;
     padding: 0 20px;
     box-shadow: 0px -4px 6px rgba(0, 0, 0, 0.05);
     background-color: white;
+}
+.base div{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+.base p{
+    font-family: Roboto;
+    font-weight: 300;
+    font-size: 14px;
+    color:#505050;
 }
 .base input{
     border:none;
@@ -199,14 +210,15 @@ li{
     font-weight: 400;
     font-size: 16px;
     display:flex;
+    justify-content: space-between;
     text-align: center;
-    margin: 10px 0;
+    margin: 10px 10px;
 }
 
-.check{
+.check {
     color:green;
     display:none;
 }
-.selecionado>.check{
+.selecionado .check{
     display:block;
 }

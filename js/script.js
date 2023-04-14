@@ -8,6 +8,7 @@ const nome = document.querySelector(".inputNome");
 const btnNome = document.querySelector(".btnEntrar");
 const barra = document.querySelector(".barra");
 const participants = document.querySelector(".participantes");
+const legenda = document.querySelector(".legenda");
 
 function entrar() {
     const usuario = nome.value;
@@ -26,6 +27,7 @@ function entrou(resp){
         buscar();
         manter();
         participantes();
+        select(document.querySelector("[data-value='tipo']"));
         //setInterval(buscar, 3000);
         setInterval(manter, 5000);
         setInterval(participantes, 10000);
@@ -63,10 +65,12 @@ function participantes(){
     let seleciona = false;
     axios.get("https://mock-api.driven.com.br/api/vm/uol/participants")
         .then(response => {
-            participants.innerHTML = `<li data-value="participante" class="" onclick="select(this)"><ion-icon name="people-sharp"></ion-icon>Todos<ion-icon name="checkmark-sharp" class="check"></ion-icon></li>`;
+            participants.innerHTML = `<li data-value="participante" class="" onclick="select(this)" data-test="all"><div><ion-icon name="people-sharp"></ion-icon>Todos</div><div><ion-icon name="checkmark-sharp" class="check"></ion-icon></div></li>`;
             part = response.data;
             for (i = 0; i < Object.keys(part).length; i++) {
-                if(part[i].name==destino){
+                if(part[i].name == user.name){
+
+                }else if(part[i].name==destino){
                     renderParticipantes(part[i].name,"selecionado");
                     seleciona=true;
                 }
@@ -102,7 +106,7 @@ function renderMensagem(tempo, destino, usuario, msg, status) {
 }
 
 function renderParticipantes(nome,classe){
-    participants.innerHTML += `<li data-value="participante" class="${classe}" onclick="select(this)"><ion-icon name="person-circle-sharp"></ion-icon>${nome}<ion-icon name="checkmark-sharp" class="check"></ion-icon></li>`;
+    participants.innerHTML += `<li data-value="participante" class="${classe}" onclick="select(this)" data-test="participant"><div><ion-icon name="person-circle-sharp"></ion-icon>${nome}</div><div><ion-icon name="checkmark-sharp" class="check" data-test="check"></ion-icon></div></li>`;
 }
 
 input.addEventListener("keypress", function (event) {
@@ -145,5 +149,25 @@ function select(elemento){
         todos[i].classList.remove("selecionado");
     }
     elemento.classList.add("selecionado");
-    destino = elemento.innerText;
+    if(elemento.dataset.value == 'participante'){
+        destino = elemento.innerText;
+    }else if(elemento.dataset.value == 'tipo'){
+        if(elemento.innerText == 'Público'){
+            tipo = 'message';
+        }else if(elemento.innerText == 'Reservadamente'){
+            tipo = 'private_message';
+        }
+    }
+    if(destino=='Todos'&&tipo!='message'){
+        select(document.querySelector("[data-value='tipo']"));
+    }
+    renderLegenda();
+}
+
+function renderLegenda(){
+    if(tipo == "message"){
+        legenda.innerHTML = `Escrevendo para ${destino}`;
+    }else if(tipo == "private_message"){
+        legenda.innerHTML = `Escrevendo para ${destino} (reservadamente)`;
+    }
 }

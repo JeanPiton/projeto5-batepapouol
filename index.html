@@ -15,13 +15,13 @@
 <body>
     <div class="telaEntrada">
         <img src="imagens/logo.png">
-        <input type="text" class="inputNome" placeholder="Digite seu nome">
-        <button class="btnEntrar" onclick="entrar()">Entrar</button>
+        <input type="text" class="inputNome" placeholder="Digite seu nome" data-test="input-name">
+        <button class="btnEntrar" onclick="entrar()" data-test="send-name">Entrar</button>
         <img src="imagens/Loading_icon.gif" class = "loading">
     </div>
     <div class="topo">
         <img src="imagens/logo.png">
-        <ion-icon name="people" onclick="mostrarBarra()"></ion-icon>
+        <ion-icon name="people" onclick="mostrarBarra()" data-test="open-participants"></ion-icon>
     </div>
 
     <div class="conteudo">
@@ -29,14 +29,24 @@
     </div>
 
     <div class="base">
-        <input type="text" class = "inputMessage" placeholder="Escreva aqui..." onfocus="this.placeholder=''" onblur="this.placeholder='Escreva aqui...'" data-test="input-message">
-        <ion-icon name="paper-plane-outline" onclick="enviar()" id="btnEnviar" data-test="send-message"></ion-icon>
-    </div>
+        <div>
+            <input type="text" class = "inputMessage" placeholder="Escreva aqui..." onfocus="this.placeholder=''" onblur="this.placeholder='Escreva aqui...'" data-test="input-message">
+            <ion-icon name="paper-plane-outline" onclick="enviar()" id="btnEnviar" data-test="send-message"></ion-icon>
+        </div>
+        <div>
+            <p class="legenda" data-test="recipient">Escrevendo para todos</p>
+        </div>
+        </div>
 
     <div class="barra">
         <div class="barraLateral">
             Escolha um contato para enviar
             <ul class="participantes">
+            </ul>
+            Escolha a visibilidade:
+            <ul>
+                <li data-value="tipo" class="" onclick="select(this)" data-test="public"><div><ion-icon name="lock-open"></ion-icon>Público</div><div><ion-icon name="checkmark-sharp" class="check" data-test="check"></ion-icon></div></li>
+                <li data-value="tipo" class="" onclick="select(this)" data-test="private"><div><ion-icon name="lock-closed"></ion-icon>Reservadamente</div><div><ion-icon name="checkmark-sharp" class="check" data-test="check"></ion-icon></div></li>
             </ul>
         </div>
         <div class="sair" onclick="esconderBarra()"></div>
