@@ -68,9 +68,9 @@ function participantes(){
             participants.innerHTML = `<li data-value="participante" class="" onclick="select(this)" data-test="all"><div><ion-icon name="people-sharp"></ion-icon>Todos</div><div><ion-icon name="checkmark-sharp" class="check"></ion-icon></div></li>`;
             part = response.data;
             for (i = 0; i < Object.keys(part).length; i++) {
-                if(part[i].name == user.name){
+                /*if(part[i].name == user.name){
 
-                }else if(part[i].name==destino){
+                }else */if(part[i].name==destino){
                     renderParticipantes(part[i].name,"selecionado");
                     seleciona=true;
                 }
