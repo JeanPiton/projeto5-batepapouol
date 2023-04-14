@@ -91,9 +91,9 @@ function renderMensagem(tempo, destino, usuario, msg, status) {
     <p class="usuario">${usuario}</p>
     <div class="msg">${msg}</div>
 </div>`
-    }/*else if(status === "private_message" && (destino != user.name && usuario != user.name)){
+    }else if(status === "private_message" && (destino != user.name && usuario != user.name)){
 
-    }*/
+    }
     else {
         conteudo.innerHTML += `<div class="mensagem ${status}" data-test="message">
     <p class="tempo">${tempo}</p>
