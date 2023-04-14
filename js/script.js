@@ -28,7 +28,7 @@ function entrou(resp){
         manter();
         participantes();
         select(document.querySelector("[data-value='tipo']"));
-        //setInterval(buscar, 3000);
+        setInterval(buscar, 3000);
         setInterval(manter, 5000);
         setInterval(participantes, 10000);
         document.querySelector(".telaEntrada").style.display = "none";
